@@ -1,4 +1,9 @@
+//@flow
 import React, { Component } from 'react'
+
+type State = {
+  textValue: string
+}
 
 const keycodes = {
   DIGIT_ZERO: 48,
@@ -6,18 +11,18 @@ const keycodes = {
 }
 
 export default class InputShortcut extends Component {
+  state: State
+  input: HTMLInputElement
+
   constructor() {
     super()
 
     this.state = {
       textValue: ''
     }
-
-    this._isPrintableKey = this._isPrintableKey.bind(this)
-    this._handleKeyDown = this._handleKeyDown.bind(this)
   }
 
-  _isPrintableKey(keyCode) {
+  _isPrintableKey(keyCode: number) {
     if (keycodes.DIGIT_ZERO <= keyCode && keyCode <= keycodes.KEY_Z) {
       return true
     } else {
@@ -25,8 +30,11 @@ export default class InputShortcut extends Component {
     }
   }
 
-  _handleKeyDown(event) {
-    console.log(event.key);
+  _handleKeyDown(event: Event) {
+    if (!(event instanceof KeyboardEvent)) {
+      throw new Error("Invalid event type error.")
+    }
+
     event.preventDefault()
     event.stopPropagation()
 
@@ -56,20 +64,20 @@ export default class InputShortcut extends Component {
   }
 
   componentDidMount() {
-    const node = findDOMNode(this)
-    node.addEventListener('keydown', this._handleKeyDown, false)
+    const node = this.input
+    node.addEventListener('keydown', this._handleKeyDown.bind(this), false)
   }
 
   componentWillUnmount() {
-    const node = findDOMNode(this)
-    node.removeEventListener('keydown', this._handleKeyDown)
+    const node = this.input
+    node.removeEventListener('keydown', this._handleKeyDown.bind(this))
   }
 
   render() {
     return (
       <input
         className="InputShortcut"
-        ref="input"
+        ref={ (ref) => this.input = ref }
         value={ this.state.textValue } />
     )
   }
