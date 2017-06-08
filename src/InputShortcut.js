@@ -7,7 +7,7 @@ type State = {
 
 const keycodes = {
   DIGIT_ZERO: 48,
-  KEY_Z: 122,
+  KEY_Z: 90,
 }
 
 export default class InputShortcut extends Component {
