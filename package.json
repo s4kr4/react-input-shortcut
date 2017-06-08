@@ -43,5 +43,9 @@
       "es2015",
       "react"
     ]
-  }
+  },
+  "files": [
+    "index.js",
+    "lib"
+  ]
 }
