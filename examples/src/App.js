@@ -12,7 +12,12 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Test of "react-input-shortcut"</h2>
         </div>
-        <InputShortcut />
+        <div>
+          Alphabet + Number: <InputShortcut allowNumber />
+        </div>
+        <div>
+          Alphabet Only: <InputShortcut />
+        </div>
       </div>
     );
   }

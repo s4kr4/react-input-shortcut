@@ -5,13 +5,20 @@ type State = {
   textValue: string
 }
 
+type Props = {
+  allowNumber: ?boolean
+}
+
 const keycodes = {
   DIGIT_ZERO: 48,
+  DIGIT_NINE: 57,
+  KEY_A: 65,
   KEY_Z: 90,
 }
 
 export default class InputShortcut extends Component {
   state: State
+  props: Props
   input: HTMLInputElement
 
   constructor() {
@@ -22,15 +29,33 @@ export default class InputShortcut extends Component {
     }
   }
 
-  _isPrintableKey(keyCode: number) {
-    if (keycodes.DIGIT_ZERO <= keyCode && keyCode <= keycodes.KEY_Z) {
+  _isAlphabetKey(keyCode: number): boolean {
+    if (keycodes.KEY_A <= keyCode && keyCode <= keycodes.KEY_Z) {
       return true
     } else {
       return false
     }
   }
 
-  _handleKeyDown(event: Event) {
+  _isNumberKey(keyCode: number): boolean {
+    if (keycodes.DIGIT_ZERO <= keyCode && keyCode <= keycodes.DIGIT_NINE) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  _isValidKey(keyCode: number): boolean {
+    if (!this.props.allowNumber && this._isNumberKey(keyCode)) {
+      return false
+    } else if (this._isAlphabetKey(keyCode) || this._isNumberKey(keyCode)) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  _handleKeyDown(event: Event): void {
     if (!(event instanceof KeyboardEvent)) {
       throw new Error("Invalid event type error.")
     }
@@ -40,7 +65,7 @@ export default class InputShortcut extends Component {
 
     let key = ''
 
-    if (this._isPrintableKey(event.keyCode)) {
+    if (this._isValidKey(event.keyCode)) {
       let prefix = ''
 
       if (event.ctrlKey) {
