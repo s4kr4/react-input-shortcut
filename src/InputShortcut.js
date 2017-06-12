@@ -101,9 +101,11 @@ export default class InputShortcut extends Component {
   render() {
     return (
       <input
+        type="text"
         className="InputShortcut"
-        ref={ (ref) => this.input = ref }
-        value={ this.state.textValue } />
+        name={this.props.name}
+        ref={(ref) => this.input = ref}
+        value={this.state.textValue} />
     )
   }
 }
