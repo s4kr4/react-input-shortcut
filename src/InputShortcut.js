@@ -6,6 +6,7 @@ type State = {
 }
 
 type Props = {
+  name: ?string,
   allowNumber: ?boolean
 }
 
