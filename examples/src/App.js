@@ -20,7 +20,6 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <h2>Test of "react-input-shortcut"</h2>
         </div>
         <form action="javascript:void(0)" onSubmit={this.handleSubmit.bind(this)}>
