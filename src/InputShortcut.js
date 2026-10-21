@@ -1,5 +1,6 @@
 //@flow
 import React, { Component } from 'react'
+import type { Node } from 'react'
 
 type State = {
   textValue: string
@@ -17,13 +18,11 @@ const keycodes = {
   KEY_Z: 90,
 }
 
-export default class InputShortcut extends Component {
-  state: State
-  props: Props
-  input: HTMLInputElement
+export default class InputShortcut extends Component<Props, State> {
+  input: ?HTMLInputElement
 
-  constructor() {
-    super()
+  constructor(props: Props) {
+    super(props)
 
     this.state = {
       textValue: ''
@@ -91,15 +90,21 @@ export default class InputShortcut extends Component {
 
   componentDidMount() {
     const node = this.input
+    if (!node) {
+      return
+    }
     node.addEventListener('keydown', this._handleKeyDown.bind(this), false)
   }
 
   componentWillUnmount() {
     const node = this.input
+    if (!node) {
+      return
+    }
     node.removeEventListener('keydown', this._handleKeyDown.bind(this))
   }
 
-  render() {
+  render(): Node {
     return (
       <input
         type="text"
